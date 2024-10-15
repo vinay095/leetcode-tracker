@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Problem Tracker</title>
+    <style>
+        body {
+            background-color: #1C1C1E;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+        }
+
+        h2 {
+            text-align: center;
+            color: aquamarine;
+        }
+
+        .problem-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .problem-list li {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+        }
+
+        .problem-list a {
+            color: #00bcd4;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .problem-list a:hover {
+            color: #ffcc00;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 13px;
+            accent-color: #ffcc00;
+        }
+
+        /* Add button style */
+        #addButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: aquamarine;
+            color: black;
+            font-weight: bold;
+            font-size: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #addButton:hover {
+            background-color: #ffcc00;
+        }
+
+        /* Form styles */
+        form {
+            display: none;
+            margin: 30px;
+            text-align: left;
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        form input, form button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        form input {
+            width: 250px;    
+        }
+
+        form button {
+            background-color:#00bcd4;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #ffcc00;
+        }
+
+        /* Overlay behind form */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>LeetCode Problem Tracker</h1><br><br>
+    
+    <form id="addProblemForm">
+        <h2>Add a New Problem</h2>
+        <input type="text" id="categoryName" placeholder="Enter category name" required>
+        <br>
+        <input type="text" id="problemLink" placeholder="Enter problem link (e.g., /problems/3sum/)" required>
+        <br>
+        <input type="text" id="problemTitle" placeholder="Enter problem title (e.g., 3Sum)" required>
+        <br>
+        <input type="number" id="problemNumber" placeholder="Enter problem number (e.g., 15)" required>
+        <br>
+        <button type="submit">Add Problem</button>
+        <button type="button" id="closeFormButton">Close</button>
+    </form>
+
+    <!-- Overlay for the form -->
+    <div id="overlay"></div>
+
+    <!-- Arrays and Strings -->
+    <h2>Arrays and Strings</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem1"><a href="https://leetcode.com/problems/3sum/" target="_blank">3Sum (15)</a></li>
+        <li><input type="checkbox" id="problem2"><a href="https://leetcode.com/problems/container-with-most-water/" target="_blank">Container With Most Water (11)</a></li>
+        <li><input type="checkbox" id="problem3"><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self (238)</a></li>
+        <li><input type="checkbox" id="problem4"><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">Longest Substring Without Repeating Characters (3)</a></li>
+        <li><input type="checkbox" id="problem5"><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank">Median of Two Sorted Arrays (4)</a></li>
+        <li><input type="checkbox" id="problem6"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Minimum in Rotated Sorted Array (153)</a></li>
+        <li><input type="checkbox" id="problem7"><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank">Search in Rotated Sorted Array (33)</a></li>
+        <li><input type="checkbox" id="problem8"><a href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank">Reverse Words in a String (151)</a></li>
+        <li><input type="checkbox" id="problem9"><a href="https://leetcode.com/problems/group-anagrams/" target="_blank">Group Anagrams (49)</a></li>
+        <li><input type="checkbox" id="problem10"><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank">Longest Consecutive Sequence (128)</a></li>
+        <li><input type="checkbox" id="problem11"><a href="https://leetcode.com/problems/valid-anagram/" target="_blank">Valid Anagram (242)</a></li>
+        <li><input type="checkbox" id="problem12"><a href="https://leetcode.com/problems/length-of-longest-substring-with-at-most-k-distinct-characters/" target="_blank">Length of Longest Substring with At Most K Distinct Characters (340)</a></li>
+        <li><input type="checkbox" id="problem13"><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">Sliding Window Maximum (239)</a></li>
+        <li><input type="checkbox" id="problem14"><a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">Maximum Product Subarray (152)</a></li>
+        <li><input type="checkbox" id="problem15"><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank">Kth Largest Element in an Array (215)</a></li>
+    </ul><br><br>
+
+    <!-- Linked Lists -->
+    <h2>Linked Lists</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem16"><a href="https://leetcode.com/problems/add-two-numbers/" target="_blank">Add Two Numbers (2)</a></li>
+        <li><input type="checkbox" id="problem17"><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">Reverse Linked List (206)</a></li>
+        <li><input type="checkbox" id="problem18"><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">Merge Two Sorted Lists (21)</a></li>
+        <li><input type="checkbox" id="problem19"><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank">Linked List Cycle (141)</a></li>
+        <li><input type="checkbox" id="problem20"><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">Remove Nth Node From End of List (19)</a></li>
+        <li><input type="checkbox" id="problem21"><a href="https://leetcode.com/problems/intersection-of-two-linked-lists/" target="_blank">Intersection of Two Linked Lists (160)</a></li>
+        <li><input type="checkbox" id="problem22"><a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank">Copy List with Random Pointer (138)</a></li>
+        <li><input type="checkbox" id="problem23"><a href="https://leetcode.com/problems/odd-even-linked-list/" target="_blank">Odd Even Linked List (328)</a></li>
+        <li><input type="checkbox" id="problem24"><a href="https://leetcode.com/problems/rotate-list/" target="_blank">Rotate List (61)</a></li>
+        <li><input type="checkbox" id="problem25"><a href="https://leetcode.com/problems/rearrange-a-linked-list/" target="_blank">Rearrange a Linked List (143)</a></li>
+    </ul><br><br>
+
+    <!-- Trees and Graphs -->
+    <h2>Trees and Graphs</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem26"><a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank">Binary Tree Inorder Traversal (94)</a></li>
+        <li><input type="checkbox" id="problem27"><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">Binary Tree Level Order Traversal (102)</a></li>
+        <li><input type="checkbox" id="problem28"><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank">Binary Tree Maximum Path Sum (124)</a></li>
+        <li><input type="checkbox" id="problem29"><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank">Serialize and Deserialize Binary Tree (297)</a></li>
+        <li><input type="checkbox" id="problem30"><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank">Lowest Common Ancestor of a Binary Tree (236)</a></li>
+        <li><input type="checkbox" id="problem31"><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank">Validate Binary Search Tree (98)</a></li>
+        <li><input type="checkbox" id="problem32"><a href="https://leetcode.com/problems/path-sum/" target="_blank">Path Sum (112)</a></li>
+        <li><input type="checkbox" id="problem33"><a href="https://leetcode.com/problems/word-ladder/" target="_blank">Word Ladder (127)</a></li>
+        <li><input type="checkbox" id="problem34"><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Number of Islands (200)</a></li>
+        <li><input type="checkbox" id="problem35"><a href="https://leetcode.com/problems/clone-graph/" target="_blank">Clone Graph (133)</a></li>
+        <li><input type="checkbox" id="problem36"><a href="https://leetcode.com/problems/course-schedule/" target="_blank">Course Schedule (207)</a></li>
+        <li><input type="checkbox" id="problem37"><a href="https://leetcode.com/problems/maximum-binary-tree/" target="_blank">Maximum Binary Tree (654)</a></li>
+        <li><input type="checkbox" id="problem38"><a href="https://leetcode.com/problems/binary-tree-vertical-order-traversal/" target="_blank">Binary Tree Vertical Order Traversal (314)</a></li>
+        <li><input type="checkbox" id="problem39"><a href="https://leetcode.com/problems/all-paths-from-source-to-target/" target="_blank">All Paths From Source to Target (797)</a></li>
+        <li><input type="checkbox" id="problem40"><a href="https://leetcode.com/problems/find-if-path-exists-in-grapg/" target="_blank">Find if Path Exists in Graph (1971)</a></li>
+
+    </ul><br><br>
+
+    <!-- Dynamic Programming -->
+    <h2>Dynamic Programming</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem41"><a href="https://leetcode.com/problems/climbing-stairs/" target="_blank">Climbing Stairs (70)</a></li>
+        <li><input type="checkbox" id="problem42"><a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank">Longest Increasing Subsequence (300)</a></li>
+        <li><input type="checkbox" id="problem43"><a href="https://leetcode.com/problems/edit-distance/" target="_blank">Edit Distance (72)</a></li>
+        <li><input type="checkbox" id="problem44"><a href="https://leetcode.com/problems/coin-change/" target="_blank">Coin Change (322)</a></li>
+        <li><input type="checkbox" id="problem45"><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">Maximum Subarray (53)</a></li>
+        <li><input type="checkbox" id="problem46"><a href="https://leetcode.com/problems/house-robber/" target="_blank">House Robber (198)</a></li>
+        <li><input type="checkbox" id="problem47"><a href="https://leetcode.com/problems/house-robber-ii/" target="_blank">House Robber II (213)</a></li>
+        <li><input type="checkbox" id="problem48"><a href="https://leetcode.com/problems/word-break/" target="_blank">Word Break (139)</a></li>
+        <li><input type="checkbox" id="problem49"><a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank">Longest Palindromic Substring (5)</a></li>
+        <li><input type="checkbox" id="problem50"><a href="https://leetcode.com/problems/palindrome-partitioning/" target="_blank">Palindrome Partitioning (131)</a></li>
+        <li><input type="checkbox" id="problem51"><a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">Maximum Product Subarray (152)</a></li>
+        <li><input type="checkbox" id="problem52"><a href="https://leetcode.com/problems/minimum-path-sum/" target="_blank">Minimum Path Sum (64)</a></li>
+        <li><input type="checkbox" id="problem53"><a href="https://leetcode.com/problems/unique-paths/" target="_blank">Unique Paths (62)</a></li>
+        <li><input type="checkbox" id="problem54"><a href="https://leetcode.com/problems/unique-paths-ii/" target="_blank">Unique Paths II (63)</a></li>
+        <li><input type="checkbox" id="problem55"><a href="https://leetcode.com/problems/decode-ways/" target="_blank">Decode Ways (91)</a></li>
+        <li><input type="checkbox" id="problem56"><a href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank">Partition Equal Subset Sum (416)</a></li>
+        <li><input type="checkbox" id="problem57"><a href="https://leetcode.com/problems/regular-expression-matching/" target="_blank">Regular Expression Matching (10)</a></li>
+        <li><input type="checkbox" id="problem58"><a href="https://leetcode.com/problems/integer-break/" target="_blank">Integer Break (343)</a></li>
+        <li><input type="checkbox" id="problem59"><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">Best Time to Buy and Sell Stock (121)</a></li>
+        <li><input type="checkbox" id="problem60"><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank">Best Time to Buy and Sell Stock II (122)</a></li>
+    </ul><br><br>
+
+
+    <!-- Backtracking -->
+    <h2>Backtracking</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem61"><a href="https://leetcode.com/problems/n-queens/" target="_blank">N-Queens (51)</a></li>
+        <li><input type="checkbox" id="problem62"><a href="https://leetcode.com/problems/generate-parentheses/" target="_blank">Generate Parentheses (22)</a></li>
+        <li><input type="checkbox" id="problem63"><a href="https://leetcode.com/problems/permutations/" target="_blank">Permutations (46)</a></li>
+        <li><input type="checkbox" id="problem64"><a href="https://leetcode.com/problems/subsets/" target="_blank">Subsets (78)</a></li>
+        <li><input type="checkbox" id="problem65"><a href="https://leetcode.com/problems/combination-sum/" target="_blank">Combination Sum (39)</a></li>
+        <li><input type="checkbox" id="problem66"><a href="https://leetcode.com/problems/combination-sum-ii/" target="_blank">Combination Sum II (40)</a></li>
+        <li><input type="checkbox" id="problem67"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/" target="_blank">Letter Combinations of a Phone Number (17)</a></li>
+        <li><input type="checkbox" id="problem68"><a href="https://leetcode.com/problems/sudoku-solver/" target="_blank">Sudoku Solver (37)</a></li>
+        <li><input type="checkbox" id="problem69"><a href="https://leetcode.com/problems/restore-ip-addresses/" target="_blank">Restore IP Addresses (93)</a></li>
+        <li><input type="checkbox" id="problem70"><a href="https://leetcode.com/problems/word-search/" target="_blank">Word Search (79)</a></li>
+    </ul><br><br>
+
+    <!-- Bit Manipulation -->
+    <h2>Bit Manipulation</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem71"><a href="https://leetcode.com/problems/single-number/" target="_blank">Single Number (136)</a></li>
+        <li><input type="checkbox" id="problem72"><a href="https://leetcode.com/problems/number-of-1-bits/" target="_blank">Number of 1 Bits (191)</a></li>
+        <li><input type="checkbox" id="problem73"><a href="https://leetcode.com/problems/reverse-bits/" target="_blank">Reverse Bits (190)</a></li>
+        <li><input type="checkbox" id="problem74"><a href="https://leetcode.com/problems/hamming-distance/" target="_blank">Hamming Distance (461)</a></li>
+        <li><input type="checkbox" id="problem75"><a href="https://leetcode.com/problems/power-of-two/" target="_blank">Power of Two (231)</a></li>
+        <li><input type="checkbox" id="problem76"><a href="https://leetcode.com/problems/missing-number/" target="_blank">Missing Number (268)</a></li>
+        <li><input type="checkbox" id="problem77"><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">Find the Duplicate Number (287)</a></li>
+        <li><input type="checkbox" id="problem78"><a href="https://leetcode.com/problems/subset-xor-sum/" target="_blank">Subset XOR Sum (418)</a></li>
+    </ul><br><br>
+
+    <!-- Heap and Priority Queue -->
+    <h2>Heap and Priority Queue</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem79"><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">Merge k Sorted Lists (23)</a></li>
+        <li><input type="checkbox" id="problem80"><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank">Top K Frequent Elements (347)</a></li>
+        <li><input type="checkbox" id="problem81"><a href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank">Find Median from Data Stream (295)</a></li>
+        <li><input type="checkbox" id="problem82"><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/" target="_blank">Kth Largest Element in a Stream (703)</a></li>
+        <li><input type="checkbox" id="problem83"><a href="https://leetcode.com/problems/last-stone-weight/" target="_blank">Last Stone Weight (1046)</a></li>
+        <li><input type="checkbox" id="problem84"><a href="https://leetcode.com/problems/the-kth-smallest-element-in-a-sorted-matrix/" target="_blank">The Kth Smallest Element in a Sorted Matrix (378)</a></li>
+        <li><input type="checkbox" id="problem85"><a href="https://leetcode.com/problems/rearrange-string-k-distance-apart/" target="_blank">Rearrange String k Distance Apart (359)</a></li>
+    </ul><br><br>
+
+    <!-- Graph Algorithms -->
+    <h2>Graph Algorithms</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem86"><a href="https://leetcode.com/problems/network-delay-time/" target="_blank">Dijkstra's Algorithm (743)</a></li>
+        <li><input type="checkbox" id="problem87"><a href="https://leetcode.com/problems/kruskals-algorithm/" target="_blank">Kruskal's Algorithm (1135)</a></li>
+        <li><input type="checkbox" id="problem88"><a href="https://leetcode.com/problems/prims-algorithm/" target="_blank">Prim's Algorithm (1584)</a></li>
+        <li><input type="checkbox" id="problem89"><a href="https://leetcode.com/problems/minimum-spanning-tree/" target="_blank">Minimum Spanning Tree (1135)</a></li>
+        <li><input type="checkbox" id="problem90"><a href="https://leetcode.com/problems/topological-sort/" target="_blank">Topological Sort (207)</a></li>
+        <li><input type="checkbox" id="problem91"><a href="https://leetcode.com/problems/network-delay-time/" target="_blank">Network Delay Time (743)</a></li>
+        <li><input type="checkbox" id="problem92"><a href="https://leetcode.com/problems/shortest-path-in-binary-matrix/" target="_blank">Shortest Path in Binary Matrix (1091)</a></li>
+    </ul><br><br>
+
+    <!-- Design and System Design -->
+    <h2>Design and System Design</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem93"><a href="https://leetcode.com/problems/lru-cache/" target="_blank">LRU Cache (146)</a></li>
+        <li><input type="checkbox" id="problem94"><a href="https://leetcode.com/problems/design-a-tic-tac-toe-game/" target="_blank">Design a Tic-Tac-Toe Game (348)</a></li>
+        <li><input type="checkbox" id="problem95"><a href="https://leetcode.com/problems/design-a-stack-with-increment-operation/" target="_blank">Design a Stack with Increment Operation (1381)</a></li>
+        <li><input type="checkbox" id="problem96"><a href="https://leetcode.com/problems/design-hit-counter/" target="_blank">Design Hit Counter (362)</a></li>
+        <li><input type="checkbox" id="problem97"><a href="https://leetcode.com/problems/design-underground-system/" target="_blank">Design Underground System (635)</a></li>
+        <li><input type="checkbox" id="problem98"><a href="https://leetcode.com/problems/design-twitter/" target="_blank">Design Twitter (355)</a></li>
+        <li><input type="checkbox" id="problem99"><a href="https://leetcode.com/problems/design-a-playlist/" target="_blank">Design a Playlist (719)</a></li>
+        <li><input type="checkbox" id="problem100"><a href="https://leetcode.com/problems/design-a-phone-directory/" target="_blank">Design a Phone Directory (380)</a></li>
+    </ul><br><br>
+
+    <!-- Advanced Topics -->
+    <h2>Advanced Topics</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem101"><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">Trapping Rain Water (42)</a></li>
+        <li><input type="checkbox" id="problem102"><a href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank">Longest Common Subsequence (1143)</a></li>
+        <li><input type="checkbox" id="problem103"><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">Sliding Window Maximum (239)</a></li>
+        <li><input type="checkbox" id="problem104"><a href="https://leetcode.com/problems/word-ladder-ii/" target="_blank">Word Ladder II (126)</a></li>
+        <li><input type="checkbox" id="problem105"><a href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank">Longest Valid Parentheses (32)</a></li>
+        <li><input type="checkbox" id="problem106"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">Largest Rectangle in Histogram (84)</a></li>
+        <li><input type="checkbox" id="problem107"><a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank">Maximal Rectangle (85)</a></li>
+        <li><input type="checkbox" id="problem108"><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Minimum Window Substring (76)</a></li>
+        <li><input type="checkbox" id="problem109"><a href="https://leetcode.com/problems/scramble-string/" target="_blank">Scramble String (87)</a></li>
+        <li><input type="checkbox" id="problem110"><a href="https://leetcode.com/problems/binary-search-tree-iterator/" target="_blank">Binary Search Tree Iterator (173)</a></li>
+        <li><input type="checkbox" id="problem111"><a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">Balanced Binary Tree (110)</a></li>
+        <li><input type="checkbox" id="problem112"><a href="https://leetcode.com/problems/largest-number/" target="_blank">Largest Number (179)</a></li>
+        <li><input type="checkbox" id="problem113"><a href="https://leetcode.com/problems/n-queens-ii/" target="_blank">N-Queens II (52)</a></li>
+        <li><input type="checkbox" id="problem114"><a href="https://leetcode.com/problems/longest-palindromic-subsequence/" target="_blank">Longest Palindromic Subsequence (516)</a></li>
+        <li><input type="checkbox" id="problem115"><a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank">Count of Smaller Numbers After Self (315)</a></li>
+        <li><input type="checkbox" id="problem116"><a href="https://leetcode.com/problems/maximum-sum-rectangle/" target="_blank">Maximum Sum Rectangle (85)</a></li>
+        <li><input type="checkbox" id="problem117"><a href="https://leetcode.com/problems/palindrome-partitioning-ii/" target="_blank">Palindrome Partitioning II (132)</a></li>
+        <li><input type="checkbox" id="problem118"><a href="https://leetcode.com/problems/unique-binary-search-trees/" target="_blank">Unique Binary Search Trees (96)</a></li>
+        <li><input type="checkbox" id="problem119"><a href="https://leetcode.com/problems/unique-binary-search-trees-ii/" target="_blank">Unique Binary Search Trees II (95)</a></li>
+        <li><input type="checkbox" id="problem120"><a href="https://leetcode.com/problems/minimum-distance-between-bst-nodes/" target="_blank">Minimum Distance Between BST Nodes (783)</a></li>
+    </ul><br><br>
+
+    <!-- Mathematical Problems -->
+    <h2>Mathematical Problems</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem121"><a href="https://leetcode.com/problems/powx-n/" target="_blank">Pow(x, n) (50)</a></li>
+        <li><input type="checkbox" id="problem122"><a href="https://leetcode.com/problems/sqrtx/" target="_blank">Sqrt(x) (69)</a></li>
+        <li><input type="checkbox" id="problem123"><a href="https://leetcode.com/problems/factorial-trailing-zeroes/" target="_blank">Factorial Trailing Zeroes (172)</a></li>
+        <li><input type="checkbox" id="problem124"><a href="https://leetcode.com/problems/combination-sum-iii/" target="_blank">Combination Sum III (216)</a></li>
+        <li><input type="checkbox" id="problem125"><a href="https://leetcode.com/problems/arranging-coins/" target="_blank">Arrange Coins (441)</a></li>
+        <li><input type="checkbox" id="problem126"><a href="https://leetcode.com/problems/nim-game/" target="_blank">Nim Game (292)</a></li>
+        <li><input type="checkbox" id="problem127"><a href="https://leetcode.com/problems/count-primes/" target="_blank">Count Primes (204)</a></li>
+        <li><input type="checkbox" id="problem128"><a href="https://leetcode.com/problems/happy-number/" target="_blank">Happy Number (202)</a></li>
+    </ul><br><br>
+
+    <!-- Greedy Algorithms -->
+    <h2>Greedy Algorithms</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem129"><a href="https://leetcode.com/problems/gas-station/" target="_blank">Gas Station (134)</a></li>
+        <li><input type="checkbox" id="problem130"><a href="https://leetcode.com/problems/jump-game/" target="_blank">Jump Game (55)</a></li>
+        <li><input type="checkbox" id="problem131"><a href="https://leetcode.com/problems/jump-game-ii/" target="_blank">Jump Game II (45)</a></li>
+        <li><input type="checkbox" id="problem132"><a href="https://leetcode.com/problems/minimum-number-of-refueling-stops/" target="_blank">Minimum Number of Refueling Stops (871)</a></li>
+        <li><input type="checkbox" id="problem133"><a href="https://leetcode.com/problems/candy/" target="_blank">Candy (135)</a></li>
+        <li><input type="checkbox" id="problem134"><a href="https://leetcode.com/problems/assign-cookies/" target="_blank">Assign Cookies (455)</a></li>
+        <li><input type="checkbox" id="problem135"><a href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank">Non-overlapping Intervals (435)</a></li>
+    </ul><br><br>
+
+    <!-- Search Algorithms -->
+    <h2>Search Algorithms</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem136"><a href="https://leetcode.com/problems/binary-search/" target="_blank">Binary Search (704)</a></li>
+        <li><input type="checkbox" id="problem137"><a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank">Search a 2D Matrix (74)</a></li>
+        <li><input type="checkbox" id="problem138"><a href="https://leetcode.com/problems/search-in-rotated-sorted-array-ii/" target="_blank">Search in Rotated Sorted Array II (81)</a></li>
+        <li><input type="checkbox" id="problem139"><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank">Find First and Last Position of Element in Sorted Array (34)</a></li>
+        <li><input type="checkbox" id="problem140"><a href="https://leetcode.com/problems/find-peak-element/" target="_blank">Find Peak Element (162)</a></li>
+    </ul><br><br>
+
+    <!-- String Manipulation -->
+    <h2>String Manipulation</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem141"><a href="https://leetcode.com/problems/zigzag-conversion/" target="_blank">Zigzag Conversion (6)</a></li>
+        <li><input type="checkbox" id="problem142"><a href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank">String to Integer (atoi) (8)</a></li>
+        <li><input type="checkbox" id="problem143"><a href="https://leetcode.com/problems/multiply-strings/" target="_blank">Multiply Strings (43)</a></li>
+        <li><input type="checkbox" id="problem144"><a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">Longest Repeating Character Replacement (424)</a></li>
+        <li><input type="checkbox" id="problem145"><a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/" target="_blank">Find All Anagrams in a String (438)</a></li>
+        <li><input type="checkbox" id="problem146"><a href="https://leetcode.com/problems/add-bold-tag-in-string/" target="_blank">Add Bold Tag in String (616)</a></li>
+        <li><input type="checkbox" id="problem147"><a href="https://leetcode.com/problems/reverse-vowels-of-a-string/" target="_blank">Reverse Vowels of a String (345)</a></li>
+        <li><input type="checkbox" id="problem148"><a href="https://leetcode.com/problems/implement-strstr/" target="_blank">Implement strStr() (28)</a></li>
+    </ul><br><br>
+
+    <!-- Other Important Problems -->
+    <h2>Other Important Problems</h2>
+    <ul class="problem-list">
+        <li><input type="checkbox" id="problem149"><a href="https://leetcode.com/problems/find-duplicate-subtrees/" target="_blank">Find Duplicate Subtrees (652)</a></li>
+        <li><input type="checkbox" id="problem150"><a href="https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/" target="_blank">Longest Substring with At Most Two Distinct Characters (159)</a></li>
+        <li><input type="checkbox" id="problem151"><a href="https://leetcode.com/problems/decode-string/" target="_blank">Decode String (394)</a></li>
+        <li><input type="checkbox" id="problem152"><a href="https://leetcode.com/problems/min-stack/" target="_blank">Min Stack (155)</a></li>
+        <li><input type="checkbox" id="problem153"><a href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank">Basic Calculator II (227)</a></li>
+        <li><input type="checkbox" id="problem154"><a href="https://leetcode.com/problems/basic-calculator-iii/" target="_blank">Basic Calculator III (772)</a></li>
+        <li><input type="checkbox" id="problem155"><a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank">Course Schedule II (210)</a></li>
+        <li><input type="checkbox" id="problem156"><a href="https://leetcode.com/problems/top-k-frequent-words/" target="_blank">Top K Frequent Words (692)</a></li>
+        <li><input type="checkbox" id="problem157"><a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank">Longest Substring with At Most K Distinct Characters (340)</a></li>
+        <li><input type="checkbox" id="problem158"><a href="https://leetcode.com/problems/sliding-window-median/" target="_blank">Sliding Window Median (480)</a></li>
+        <li><input type="checkbox" id="problem159"><a href="https://leetcode.com/problems/maximal-square/" target="_blank">Maximal Square (221)</a></li>
+        <li><input type="checkbox" id="problem160"><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self (238)</a></li>
+        <li><input type="checkbox" id="problem161"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank">Find Minimum in Rotated Sorted Array II (154)</a></li>
+        <li><input type="checkbox" id="problem162"><a href="https://leetcode.com/problems/search-insert-position/" target="_blank">Search Insert Position (35)</a></li>
+        <li><input type="checkbox" id="problem163"><a href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank">Number of Connected Components in an Undirected Graph (323)</a></li>
+        <li><input type="checkbox" id="problem164"><a href="https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/" target="_blank">Maximum Number of Events That Can Be Attended (1353)</a></li>
+        <li><input type="checkbox" id="problem165"><a href="https://leetcode.com/problems/design-a-hashmap/" target="_blank">Design a HashMap (706)</a></li>
+        <li><input type="checkbox" id="problem166"><a href="https://leetcode.com/problems/check-if-a-string-can-become-empty-by-replacing-substrings/" target="_blank">Check if a String Can Become Empty by Replacing Substrings (1209)</a></li>
+        <li><input type="checkbox" id="problem167"><a href="https://leetcode.com/problems/count-binary-substrings/" target="_blank">Count Binary Substrings (696)</a></li>
+        <li><input type="checkbox" id="problem168"><a href="https://leetcode.com/problems/check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/" target="_blank">Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree (1421)</a></li>
+        <li><input type="checkbox" id="problem169"><a href="https://leetcode.com/problems/remove-invalid-parentheses/" target="_blank">Remove Invalid Parentheses (301)</a></li>
+        <li><input type="checkbox" id="problem170"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Minimum in Rotated Sorted Array (153)</a></li>
+        <li><input type="checkbox" id="problem171"><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">Find the Duplicate Number (287)</a></li>
+        <li><input type="checkbox" id="problem172"><a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank">Maximal Rectangle (85)</a></li>
+        <li><input type="checkbox" id="problem173"><a href="https://leetcode.com/problems/maximal-square/" target="_blank">Maximal Square (221)</a></li>
+        <li><input type="checkbox" id="problem174"><a href="https://leetcode.com/problems/most-common-word/" target="_blank">Most Common Word (819)</a></li>
+        <li><input type="checkbox" id="problem175"><a href="https://leetcode.com/problems/largest-number/" target="_blank">Largest Number (179)</a></li>
+        <li><input type="checkbox" id="problem176"><a href="https://leetcode.com/problems/number-of-islands-ii/" target="_blank">Number of Islands II (305)</a></li>
+        <li><input type="checkbox" id="problem177"><a href="https://leetcode.com/problems/rotate-array/" target="_blank">Rotate Array (189)</a></li>
+        <li><input type="checkbox" id="problem178"><a href="https://leetcode.com/problems/design-hit-counter/" target="_blank">Design Hit Counter (362)</a></li>
+        <li><input type="checkbox" id="problem179"><a href="https://leetcode.com/problems/data-stream-as-disjoint-intervals/" target="_blank">Data Stream as Disjoint Intervals (352)</a></li>
+        <li><input type="checkbox" id="problem180"><a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/" target="_blank">Find All Anagrams in a String (438)</a></li>
+        <li><input type="checkbox" id="problem181"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">Largest Rectangle in Histogram (84)</a></li>
+        <li><input type="checkbox" id="problem182"><a href="https://leetcode.com/problems/word-break-ii/" target="_blank">Word Break II (140)</a></li>
+        <li><input type="checkbox" id="problem183"><a href="https://leetcode.com/problems/longest-increasing-path-in-a-matrix/" target="_blank">Longest Increasing Path in a Matrix (329)</a></li>
+        <li><input type="checkbox" id="problem184"><a href="https://leetcode.com/problems/find-k-pairs-with-smallest-sums/" target="_blank">Find K Pairs with Smallest Sums (373)</a></li>
+        <li><input type="checkbox" id="problem185"><a href="https://leetcode.com/problems/concatenated-words/" target="_blank">Concatenated Words (472)</a></li>
+        <li><input type="checkbox" id="problem186"><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Minimum Window Substring (76)</a></li>
+        <li><input type="checkbox" id="problem187"><a href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank">Basic Calculator II (227)</a></li>
+        <li><input type="checkbox" id="problem188"><a href="https://leetcode.com/problems/basic-calculator-iii/" target="_blank">Basic Calculator III (772)</a></li>
+        <li><input type="checkbox" id="problem189"><a href="https://leetcode.com/problems/find-the-difference-of-two-arrays/" target="_blank">Find the Difference of Two Arrays (2215)</a></li>
+        <li><input type="checkbox" id="problem190"><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank">Valid Parentheses (20)</a></li>
+        <li><input type="checkbox" id="problem191"><a href="https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/" target="_blank">Longest Substring with At Most Two Distinct Characters (159)</a></li>
+        <li><input type="checkbox" id="problem192"><a href="https://leetcode.com/problems/string-compression/" target="_blank">String Compression (443)</a></li>
+        <li><input type="checkbox" id="problem193"><a href="https://leetcode.com/problems/insert-delete-getrandom-o-1/" target="_blank">Insert Delete GetRandom O(1) (380)</a></li>
+        <li><input type="checkbox" id="problem194"><a href="https://leetcode.com/problems/design-a-leaderboard/" target="_blank">Design a Leaderboard (1244)</a></li>
+        <li><input type="checkbox" id="problem195"><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Minimum Window Substring (76)</a></li>
+        <li><input type="checkbox" id="problem196"><a href="https://leetcode.com/problems/basic-calculator/" target="_blank">Basic Calculator (224)</a></li>
+        <li><input type="checkbox" id="problem197"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">Largest Rectangle in Histogram (84)</a></li>
+        <li><input type="checkbox" id="problem198"><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self (238)</a></li>
+        <li><input type="checkbox" id="problem199"><a href="https://leetcode.com/problems/reverse-vowels-of-a-string/" target="_blank">Reverse Vowels of a String (345)</a></li>
+        <li><input type="checkbox" id="problem200"><a href="https://leetcode.com/problems/remove-k-digits/" target="_blank">Remove K Digits (402)</a></li>
+        <li><input type="checkbox" id="problem201"><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Number of Islands (200)</a></li>
+        <li><input type="checkbox" id="problem202"><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank">Serialize and Deserialize Binary Tree (297)</a></li>
+        <li><input type="checkbox" id="problem203"><a href="https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/" target="_blank">Longest Substring with At Most Two Distinct Characters (159)</a></li>
+        <li><input type="checkbox" id="problem204"><a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank">Maximal Rectangle (85)</a></li>
+        <li><input type="checkbox" id="problem205"><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">Maximum Subarray (53)</a></li>
+        <li><input type="checkbox" id="problem206"><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">Find the Duplicate Number (287)</a></li>
+        <li><input type="checkbox" id="problem207"><a href="https://leetcode.com/problems/longest-increasing-path-in-a-matrix/" target="_blank">Longest Increasing Path in a Matrix (329)</a></li>
+        <li><input type="checkbox" id="problem208"><a href="https://leetcode.com/problems/basic-calculator-iii/" target="_blank">Basic Calculator III (772)</a></li>
+        <li><input type="checkbox" id="problem209"><a href="https://leetcode.com/problems/reconstruct-original-digits-from-english/" target="_blank">Reconstruct Original Digits from English (423)</a></li>
+        <li><input type="checkbox" id="problem210"><a href="https://leetcode.com/problems/maximal-square/" target="_blank">Maximal Square (221)</a></li>
+        <li><input type="checkbox" id="problem211"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">Largest Rectangle in Histogram (84)</a></li>
+        <li><input type="checkbox" id="problem212"><a href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank">Basic Calculator II (227)</a></li>
+        <li><input type="checkbox" id="problem213"><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank">Top K Frequent Elements (347)</a></li>
+        <li><input type="checkbox" id="problem214"><a href="https://leetcode.com/problems/design-a-hashmap/" target="_blank">Design a HashMap (706)</a></li>
+        <li><input type="checkbox" id="problem215"><a href="https://leetcode.com/problems/word-ladder-ii/" target="_blank">Word Ladder II (126)</a></li>
+        <li><input type="checkbox" id="problem216"><a href="https://leetcode.com/problems/basic-calculator/" target="_blank">Basic Calculator (224)</a></li>
+        <li><input type="checkbox" id="problem217"><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self (238)</a></li>
+        <li><input type="checkbox" id="problem218"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Minimum in Rotated Sorted Array (153)</a></li>
+        <li><input type="checkbox" id="problem219"><a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank">Longest Substring with At Most K Distinct Characters (340)</a></li>
+        <li><input type="checkbox" id="problem220"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">Largest Rectangle in Histogram (84)</a></li>
+        <li><input type="checkbox" id="problem221"><a href="https://leetcode.com/problems/count-primes/" target="_blank">Count Primes (204)</a></li>
+        <li><input type="checkbox" id="problem222"><a href="https://leetcode.com/problems/combination-sum/" target="_blank">Combination Sum (39)</a></li>
+        <li><input type="checkbox" id="problem223"><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank">Find First and Last Position of Element in Sorted Array (34)</a></li>
+        <li><input type="checkbox" id="problem224"><a href="https://leetcode.com/problems/count-number-of-teams/" target="_blank">Count Number of Teams (1395)</a></li>
+        <li><input type="checkbox" id="problem225"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/" target="_blank">Find Minimum in Rotated Sorted Array II (154)</a></li>
+        <li><input type="checkbox" id="problem226"><a href="https://leetcode.com/problems/group-anagrams/" target="_blank">Group Anagrams (49)</a></li>
+        <li><input type="checkbox" id="problem227"><a href="https://leetcode.com/problems/binary-tree-right-side-view/" target="_blank">Binary Tree Right Side View (199)</a></li>
+        <li><input type="checkbox" id="problem228"><a href="https://leetcode.com/problems/maximal-rectangle/" target="_blank">Maximal Rectangle (85)</a></li>
+        <li><input type="checkbox" id="problem229"><a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank">Search a 2D Matrix (74)</a></li>
+        <li><input type="checkbox" id="problem230"><a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank">Longest Common Prefix (14)</a></li>
+        <li><input type="checkbox" id="problem231"><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self (238)</a></li>
+        <li><input type="checkbox" id="problem232"><a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">Maximum Product Subarray (152)</a></li>
+        <li><input type="checkbox" id="problem233"><a href="https://leetcode.com/problems/house-robber-ii/" target="_blank">House Robber II (213)</a></li>
+        <li><input type="checkbox" id="problem234"><a href="https://leetcode.com/problems/decode-ways/" target="_blank">Decode Ways (91)</a></li>
+        <li><input type="checkbox" id="problem235"><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/" target="_blank">Best Time to Buy and Sell Stock III (123)</a></li>
+        <li><input type="checkbox" id="problem236"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Minimum in Rotated Sorted Array (153)</a></li>
+        <li><input type="checkbox" id="problem237"><a href="https://leetcode.com/problems/maximum-subarray-sum/" target="_blank">Maximum Subarray Sum (53)</a></li>
+        <li><input type="checkbox" id="problem238"><a href="https://leetcode.com/problems/multiply-strings/" target="_blank">Multiply Strings (43)</a></li>
+        <li><input type="checkbox" id="problem239"><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">Find the Duplicate Number (287)</a></li>
+        <li><input type="checkbox" id="problem240"><a href="https://leetcode.com/problems/add-two-numbers/" target="_blank">Add Two Numbers (2)</a></li>
+        <li><input type="checkbox" id="problem241"><a href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank">Basic Calculator II (227)</a></li>
+        <li><input type="checkbox" id="problem242"><a href="https://leetcode.com/problems/top-k-frequent-words/" target="_blank">Top K Frequent Words (692)</a></li>
+        <li><input type="checkbox" id="problem243"><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">Trapping Rain Water (42)</a></li>
+        <li><input type="checkbox" id="problem244"><a href="https://leetcode.com/problems/insert-delete-getrandom-o-1/" target="_blank">Insert Delete GetRandom O(1) (380)</a></li>
+        <li><input type="checkbox" id="problem245"><a href="https://leetcode.com/problems/number-of-islands-ii/" target="_blank">Number of Islands II (305)</a></li>
+        <li><input type="checkbox" id="problem246"><a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/" target="_blank">Find All Anagrams in a String (438)</a></li>
+        <li><input type="checkbox" id="problem247"><a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/" target="_blank">Kth Largest Element in a Stream (703)</a></li>
+        <li><input type="checkbox" id="problem248"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Minimum in Rotated Sorted Array (153)</a></li>
+        <li><input type="checkbox" id="problem249"><a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank">Find the Duplicate Number (287)</a></li>
+        <li><input type="checkbox" id="problem250"><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">Trapping Rain Water (42)</a></li>
+    </ul>
+
+    <button id="addButton">Add</button>
+
+    <script>
+        const addButton = document.getElementById('addButton');
+        const form = document.getElementById('addProblemForm');
+        const overlay = document.getElementById('overlay');
+        const closeFormButton = document.getElementById('closeFormButton');
+
+        // Function to handle form toggling (open/close)
+        function toggleForm() {
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+                overlay.style.display = 'block';
+                addButton.textContent = 'Close';
+            } else {
+                form.style.display = 'none';
+                overlay.style.display = 'none';
+                addButton.textContent = 'Add';
+            }
+        }
+
+        // When the add button is clicked
+        addButton.addEventListener('click', toggleForm);
+
+        // When the close button is clicked
+        closeFormButton.addEventListener('click', toggleForm);
+
+        // When the overlay is clicked
+        overlay.addEventListener('click', toggleForm);
+
+        // Function to handle adding new problems
+        document.getElementById('addProblemForm').addEventListener('submit', function(e) {
+            e.preventDefault();  // Prevent the default form submission
+            
+            const categoryName = document.getElementById('categoryName').value.trim();
+            const problemLink = document.getElementById('problemLink').value.trim();
+            const problemTitle = document.getElementById('problemTitle').value.trim();
+            const problemNumber = document.getElementById('problemNumber').value.trim();
+
+            if (!categoryName || !problemLink || !problemTitle || !problemNumber) {
+                alert('All fields are required.');
+                return;
+            }
+
+            // Find if the category exists
+            let categoryList = document.getElementById(categoryName.toLowerCase().replace(/\s+/g, ''));
+            if (!categoryList) {
+                // If category doesn't exist, create a new category
+                categoryList = document.createElement('ul');
+                categoryList.classList.add('problem-list');
+                categoryList.id = categoryName.toLowerCase().replace(/\s+/g, '');
+                
+                const newCategoryHeader = document.createElement('h2');
+                newCategoryHeader.textContent = categoryName;
+                document.body.appendChild(newCategoryHeader);
+                document.body.appendChild(categoryList);
+            }
+
+            // Create a new list item for the problem
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <input type="checkbox" id="problem${problemNumber}">
+                <a href="https://leetcode.com${problemLink}" target="_blank">${problemTitle} (${problemNumber})</a>
+            `;
+
+            // Append the new problem to the appropriate category
+            categoryList.appendChild(listItem);
+
+            // Clear form after submission
+            document.getElementById('addProblemForm').reset();
+
+            // Close the form and hide the overlay
+            toggleForm();
+        });
+    </script>
+</body>
+</html>
