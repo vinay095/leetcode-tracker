@@ -1,2 +1,6 @@
 # leetcode-tracker
-A simple website made to track DSA problems.
+A simple website created to track DSA problems.
+
+- Contains 250 categorised problem as example
+- New categories can be added
+- New problems can be added to existing category or to a new category
